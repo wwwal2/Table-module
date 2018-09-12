@@ -8,7 +8,7 @@ function makeTextTable (rowsT, columnsT) {
     for (i=0; i<rowsT; i++) {  
          result = result + "<tr>" + columns +"</tr>"
     };
-
+    
     return result
 };
 
@@ -47,7 +47,51 @@ function plusColumn () {
     renderTable(refresh);
 };
 
-let tableInput = {tr:3, th:4};
+function createButtons (tag, id, textContent, onclick) {
+    let btn = document.createElement(tag);
+	btn.id = id;
+    btn.textContent = textContent;
+    btn.onclick = onclick;
+    return btn; 
+};
+
+function RenderButtons () {
+    for(var i = 0; i < buttons.length; i++) {
+        var btn = buttons[i];
+        container.appendChild(createButtons(btn.tag, btn.id, btn.innerText, btn.onclick))
+    };
+}
+
+const buttons = [
+    {
+        tag: "button",
+        innerText: "plusR",
+        id: "1",
+        onclick: plusRow
+    },
+    {
+        tag: "button",
+        innerText: "minusR",
+        id: "2",
+        onclick: minusRow
+    },
+    {
+        tag: "button",
+        innerText: "plusC",
+        id: "3",
+        onclick: plusColumn
+    },
+    {
+        tag: "button",
+        innerText: "minusC",
+        id: "4",
+        onclick: minusColumn
+    }
+];
+
+
+
+let tableInput = {tr:4, th:4};
 
 let textTable = makeTextTable(tableInput.tr, tableInput.th);
 
@@ -56,25 +100,5 @@ container.id = "wrapper";
 container.align = "center";
 document.body.appendChild(container);
 
-let btnPlusR = document.createElement("button");
-btnPlusR.innerText = "plusR";
-container.appendChild(btnPlusR);
-btnPlusR.onclick = plusRow;
-
-let btnMinusR = document.createElement("button");
-btnMinusR.innerText = "minusR";
-container.appendChild(btnMinusR);
-btnMinusR.onclick = minusRow;
-
-let btnPlusC = document.createElement("button");
-btnPlusC.innerText = "plusC";
-container.appendChild(btnPlusC);
-btnPlusC.onclick = plusColumn;
-
-let btnMinusC = document.createElement("button");
-btnMinusC.innerText = "minusC";
-container.appendChild(btnMinusC);
-btnMinusC.onclick = minusColumn;
-
-
 renderTable(textTable);
+RenderButtons();
