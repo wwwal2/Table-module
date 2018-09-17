@@ -54,7 +54,7 @@ button {
      text-align: center;
      text-decoration: none;
      opacity: 0;
-     transition: margin-bottom 0.1s, margin-right 0.1s;
+     /* transition: margin-bottom 0.1s, margin-right 0.1s; bug*/
 }
 
 
