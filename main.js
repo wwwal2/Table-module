@@ -1,104 +1,147 @@
+// table creation block
 function makeTextTable (rowsT, columnsT) {
     let columns = "";
     let result = "";
 
-    for (i=0; i<columnsT; i++) {  
-         columns = columns + "<th></th>"
+    for (let i=0; i<columnsT; i++) {  
+         columns = columns + "<td></td>"
     };
-    for (i=0; i<rowsT; i++) {  
+    for (let i=0; i<rowsT; i++) {  
          result = result + "<tr>" + columns +"</tr>"
     };
-    
+
     return result
 };
 
-function renderTable (text) {
+const renderTable = (text) => {
     let table = document.createElement("table");
     table.innerHTML = text;
     table.id = "unstableElement";
     container.appendChild(table);
 };
 
-function minusRow () {
+// table reforming block
+const minusRow = () => {
     tableInput.tr = tableInput.tr -1;
-    let refresh = makeTextTable(tableInput.tr, tableInput.th);
+    let refresh = makeTextTable(tableInput.tr, tableInput.td);
     container.removeChild(document.getElementById("unstableElement"));
     renderTable(refresh);
+    if (tableInput.tr === 1) document.getElementById("Rminus").style.display = "none";
 };
 
-function plusRow () {
-     tableInput.tr = tableInput.tr +1;
-     let refresh = makeTextTable(tableInput.tr, tableInput.th);
-     container.removeChild(document.getElementById("unstableElement"));
-     renderTable(refresh);
- };
-
- function minusColumn () {
-    tableInput.th = tableInput.th -1;
-    let refresh = makeTextTable(tableInput.tr, tableInput.th);
+const plusRow = () => {
+    tableInput.tr = tableInput.tr +1;
+    let refresh = makeTextTable(tableInput.tr, tableInput.td);
     container.removeChild(document.getElementById("unstableElement"));
     renderTable(refresh);
+    document.getElementById("Rminus").style.display = "block";
 };
 
-function plusColumn () {
-    tableInput.th = tableInput.th +1;
-    let refresh = makeTextTable(tableInput.tr, tableInput.th);
+const minusColumn = () => {
+    tableInput.td = tableInput.td -1;
+    let refresh = makeTextTable(tableInput.tr, tableInput.td);
     container.removeChild(document.getElementById("unstableElement"));
     renderTable(refresh);
+    if (tableInput.td === 1) document.getElementById("Cminus").style.display = "none";
 };
 
-function createButtons (tag, id, textContent, onclick) {
+const plusColumn = () => {
+    tableInput.td = tableInput.td +1;
+    let refresh = makeTextTable(tableInput.tr, tableInput.td);
+    container.removeChild(document.getElementById("unstableElement"));
+    renderTable(refresh);
+    document.getElementById("Cminus").style.display = "block";
+};
+
+// buttons block
+const createButtons = (tag, id, className, textContent, onclick) => {
     let btn = document.createElement(tag);
-	btn.id = id;
+    btn.id = id;
+    btn.className = className;
     btn.textContent = textContent;
     btn.onclick = onclick;
     return btn; 
 };
 
-function RenderButtons () {
+const RenderButtons = () => {
     for(var i = 0; i < buttons.length; i++) {
         var btn = buttons[i];
-        container.appendChild(createButtons(btn.tag, btn.id, btn.innerText, btn.onclick))
+        shell.appendChild(createButtons(btn.tag, btn.id, btn.className, btn.textContent, btn.onclick))
     };
 }
 
 const buttons = [
     {
         tag: "button",
-        innerText: "plusR",
-        id: "1",
+        id: "Rplus",
+        className: "plus",
+        textContent: "+",
         onclick: plusRow
     },
     {
         tag: "button",
-        innerText: "minusR",
-        id: "2",
+        id: "Rminus",
+        className: "minus",
+        textContent: "-",
         onclick: minusRow
     },
     {
         tag: "button",
-        innerText: "plusC",
-        id: "3",
+        id: "Cplus",
+        className: "plus",
+        textContent: "+",
         onclick: plusColumn
     },
     {
         tag: "button",
-        innerText: "minusC",
-        id: "4",
+        id: "Cminus",
+        className: "minus",
+        textContent: "-",
         onclick: minusColumn
     }
 ];
 
+// execution
+let tableInput = {tr:4, td:4};
 
+let textTable = makeTextTable(tableInput.tr, tableInput.td);
 
-let tableInput = {tr:4, th:4};
-
-let textTable = makeTextTable(tableInput.tr, tableInput.th);
+let shell = document.createElement("table");
+shell.id = "shell";
+shell.align = "center";
+document.body.appendChild(shell);
 
 let container = document.createElement("table");
-container.id = "wrapper";
+container.id = "container";
 container.align = "center";
-document.body.appendChild(container);
+shell.appendChild(container);
 
 renderTable(textTable);
 RenderButtons();
+
+// float buttons code
+let marginY = 56;
+let marginX = 56;
+
+const Rminus = document.getElementById("Rminus");
+const Cminus = document.getElementById("Cminus");
+
+container.onmousemove = (event) => {
+    let positionY = Rminus.getBoundingClientRect().top - event.clientY;
+    let positionX = Cminus.getBoundingClientRect().right - event.clientX;
+
+    if (positionY > 5) {
+        marginY = marginY + 54; 
+    } else if (positionY < -60) {
+        marginY = marginY - 54;
+    };
+
+    if (positionX > 60) {
+        marginX = marginX +54;
+    } else if (positionX < -5) {
+        marginX = marginX - 54;
+    };
+
+    Rminus.style["margin-bottom"] = marginY + "px";
+    Cminus.style["margin-right"] = marginX + "px";
+}

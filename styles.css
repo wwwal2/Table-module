@@ -1,14 +1,82 @@
-th {
+td {
      width: 50px;
      height: 50px;
-     background-color: red;
-}
-
-#wrapper {
-     border: 5px solid red; 
+     background-color: lightskyblue;
 }
 
 button {
-     position: relative;
-     display: inline;
+     font-size: 20px;
+     width: 52px;
+     height: 52px;
+     position: absolute;
+     opacity: 1;
 }
+
+#shell {
+     position:relative;
+     border-spacing: 52px;
+     border: 0;
+}
+
+#container {
+     border: 1px solid lightskyblue;
+     border-spacing: 1px;
+}
+
+.plus {
+     background-color: orange; 
+     color: white;
+     border: none;
+     text-align: center;
+     text-decoration: none;
+}
+
+.plus:hover {
+     background-color: rgb(255, 196, 0);
+}
+
+#Rplus {
+     bottom: 0;
+     left: 0;
+     margin-left: 56px; 
+}
+
+#Cplus {
+     top: 0;
+     right: 0;
+     margin-top: 56px;
+}
+
+.minus {
+     background-color: brown;
+     border: none;
+     color: white;
+     text-align: center;
+     text-decoration: none;
+     opacity: 0;
+     transition: margin-bottom 0.1s, margin-right 0.1s;
+}
+
+
+.minus:hover {
+     background-color: rgb(255, 90, 90);
+}
+
+#Rminus {
+     bottom: 0;
+     left: 0;
+     margin-bottom: 56px;
+}
+
+#Cminus {
+     top: 0;
+     right: 0;
+     margin-right: 56px;
+}
+
+#container:hover ~ .minus, button:hover {
+     opacity: 1;
+     cursor: pointer;
+}
+
+
